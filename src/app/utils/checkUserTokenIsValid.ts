@@ -6,23 +6,20 @@ import status from 'http-status'
 import catchAsync from './catchAsync'
 import { UserModel } from '../modules/user/user.schema'
 
-type TUserRole = 'admin' | 'user'
 
-const checkUserTokenIsValid = (...requiredRoles: TUserRole[]) => {
+const auth = () => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const authToken = req.headers.authorization
+    const token = req.headers.authorization
     // checking if the token is missing
-    if (!authToken || !authToken.startsWith('Bearer ')) {
+    if (!token) {
       throw new AppError(status.UNAUTHORIZED, 'You are not authorized!')
     }
-    const token = authToken.split(' ')[1]
-    // checking if the given token is valid
     const decoded = jwt.verify(
       token,
       Server_Config.JWT_SECRET as string
     ) as JwtPayload
 
-    const { email, role, iat } = decoded
+    const { email, iat } = decoded
 
     // checking if the user is exist
     const user = await UserModel.findOne({ email })
@@ -45,12 +42,9 @@ const checkUserTokenIsValid = (...requiredRoles: TUserRole[]) => {
       throw new AppError(status.FORBIDDEN, 'This user is blocked ! !')
     }
 
-    if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(status.UNAUTHORIZED, 'You are not authorized ')
-    }
-    req.userInfo = { email, role, userId: user._id }
+    req.userInfo = { email, userId: user._id }
     next()
   })
 }
 
-export default checkUserTokenIsValid
+export default auth

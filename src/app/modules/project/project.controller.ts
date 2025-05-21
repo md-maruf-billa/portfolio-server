@@ -39,6 +39,9 @@ const getSingleProject = catchAsync(async (req, res) => {
   })
 })
 const updateProject = catchAsync(async (req, res) => {
+  if (req?.file?.path) {
+    req.body.projectImage = req.file.path
+  }
   const result = await porjectServices.updateProjectIntoDb(
     req.params.id,
     req.body
@@ -63,6 +66,6 @@ const deleteProject = catchAsync(async (req, res) => {
 export const projectControllers = {
   createProject,
   getAllProject,
-getSingleProject, updateProject, deleteProject
+  getSingleProject, updateProject, deleteProject
 
 }

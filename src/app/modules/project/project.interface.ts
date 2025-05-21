@@ -2,7 +2,7 @@ export type TProject = {
   projectImage?: string
   projectName: string
   description: string
-  slogun: string
+  slogan: string
   technologies: string[]
   features: string[]
   frontEndGitRepo: string

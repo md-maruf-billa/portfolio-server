@@ -4,7 +4,7 @@ const createProjectValidation = z.object({
   projectName: z.string().min(1, { message: 'Project name is required' }),
   description: z
     .string(),
-  slogun: z.string().min(1, { message: 'Slogun is required' }),
+  slogan: z.string().min(1, { message: 'Slogun is required' }),
   technologies: z
     .array(z.string().min(1))
     .min(1, { message: 'At least one technology is required' }),
@@ -42,6 +42,6 @@ const updateProjectValidation = z.object({
 })
 
 export const projectValidations = {
-createProjectValidation, updateProjectValidation
+  createProjectValidation, updateProjectValidation
 
 }

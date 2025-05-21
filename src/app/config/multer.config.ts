@@ -5,7 +5,7 @@ import cloudinary from '../utils/cloudinary'
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    public_id: (req, file) => 'mahid-books/' + file.originalname
+    public_id: (req, file) => 'abumahid/' + file.originalname
   }
 })
 

@@ -15,7 +15,7 @@ const projectSchema = new Schema<TProject>(
       type: String,
       required: true
     },
-    slogun: {
+    slogan: {
       type: String,
       required: true
     },
