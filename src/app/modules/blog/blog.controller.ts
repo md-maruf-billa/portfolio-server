@@ -12,6 +12,7 @@ const createABlog = catchAsync(async (req, res) => {
     blogImage: req?.file?.path
   })
   sendResponse(res, {
+    success: true,
     message: 'Blog created successfully',
     data: result,
     statusCode: status.CREATED
@@ -22,6 +23,7 @@ const createABlog = catchAsync(async (req, res) => {
 const getAllBlogs = catchAsync(async (req, res) => {
   const result = await blogSerices.getAllBlogsFromDB(req.query)
   sendResponse(res, {
+    success: true,
     message: 'Blogs is retrieved successfully',
     data: result,
     statusCode: status.OK
@@ -32,6 +34,7 @@ const getSingleBlog = catchAsync(async (req, res) => {
   const { id } = req.params
   const result = await blogSerices.getSingleBlogFromDB(id)
   sendResponse(res, {
+    success: true,
     message: 'Blogs is retrieved successfully',
     data: result,
     statusCode: status.OK
@@ -41,8 +44,12 @@ const getSingleBlog = catchAsync(async (req, res) => {
 // update blog
 
 const updateABlog = catchAsync(async (req, res) => {
+  if (req?.file?.path) {
+    req.body.blogImage = req.file.path
+  }
   const result = await blogSerices.updateBlogIntoDB(req.params.id, req.body)
   sendResponse(res, {
+    success: true,
     message: 'Blog updated successfully',
     data: result,
     statusCode: status.OK
@@ -53,6 +60,7 @@ const updateABlog = catchAsync(async (req, res) => {
 const deleteBlog = catchAsync(async (req, res) => {
   await blogSerices.deleteBlogFromDB(req.params.id)
   sendResponse(res, {
+    success: true,
     message: 'Blog deleted successfully',
     statusCode: status.OK,
     data: null

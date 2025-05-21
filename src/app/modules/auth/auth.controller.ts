@@ -6,6 +6,7 @@ import status from "http-status";
 const registerNewUser = catchAsync(async (req, res) => {
     const result = await authServices.registerUserIntoDB(req.body);
     sendResponse(res, {
+        success: true,
         message: "User Registered Successfully",
         statusCode: status.CREATED,
         data: result
@@ -15,6 +16,7 @@ const loginUser = catchAsync(async (req, res) => {
     const result = await authServices.loginUserFromDb(req.body);
     res.cookie("token", result?.token)
     sendResponse(res, {
+        success: true,
         message: "User LoggedIn Successfully",
         statusCode: status.OK,
         data: result

@@ -4,12 +4,14 @@ import { blogValidations } from './blog.validation'
 import { blogController } from './blog.controller'
 import checkUserTokenIsValid from '../../utils/checkUserTokenIsValid'
 import upload from '../../config/multer.config'
+import auth from '../../utils/checkUserTokenIsValid'
 
 const blogRouter = Router()
 
 // create a new blog
 blogRouter.post(
   '/',
+  auth(),
   upload.single('image'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data)
@@ -26,8 +28,12 @@ blogRouter.get('/:id', blogController.getSingleBlog)
 // update blog
 blogRouter.patch(
   '/:id',
-// checkUserTokenIsValid('user'),
-
+  auth(),
+  upload.single('image'),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = JSON.parse(req.body.data)
+    next()
+  },
   checkSchemaValidation(blogValidations.updateBlogValidationSchema),
   blogController.updateABlog
 )
@@ -35,8 +41,7 @@ blogRouter.patch(
 // delete a blog
 blogRouter.delete(
   '/:id',
-// checkUserTokenIsValid('user'),
-
+  auth(),
   blogController.deleteBlog
 )
 

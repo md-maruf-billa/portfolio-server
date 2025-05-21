@@ -9,5 +9,6 @@ export type TProject = {
   backEndGitRepo: string
   liveLink: string
   serverLiveLink?: string
+  isFeatured?: boolean
   isDeleted?: boolean
 }

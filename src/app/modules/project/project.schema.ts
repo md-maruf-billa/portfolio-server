@@ -46,7 +46,8 @@ const projectSchema = new Schema<TProject>(
     isDeleted: {
       type: Boolean,
       default: false
-    }
+    },
+    isFeatured: { type: Boolean, default: false }
   },
   {
     timestamps: true

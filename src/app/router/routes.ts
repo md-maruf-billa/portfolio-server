@@ -4,6 +4,7 @@ import messageRoute from '../modules/message/message.route'
 
 import projectRoute from '../modules/project/project.route'
 import { Router } from 'express'
+import skill_router from '../modules/skills/skill.route'
 
 const serverRoutes = Router()
 
@@ -27,6 +28,10 @@ const allRoutes: TServerRoutes[] = [
   {
     path: "/message",
     route: messageRoute
+  },
+  {
+    path: "/skill",
+    route: skill_router
   }
 ]
 

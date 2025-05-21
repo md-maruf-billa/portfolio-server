@@ -19,6 +19,9 @@ projectRoute.post(
   checkSchemaValidation(projectValidations.createProjectValidation),
   projectControllers.createProject
 )
+projectRoute.patch("/add-featured/:id", auth(), projectControllers.add_featured_project)
+projectRoute.delete("/removed-featured", auth(), projectControllers.remove_featured_project)
+projectRoute.get("/get-featured", projectControllers.get_featured_project)
 
 projectRoute.get('/', projectControllers.getAllProject)
 projectRoute.get('/:id', projectControllers.getSingleProject)
@@ -35,6 +38,7 @@ projectRoute.patch(
   projectControllers.updateProject
 )
 projectRoute.delete('/:id', auth(), projectControllers.deleteProject)
+
 
 
 export default projectRoute
