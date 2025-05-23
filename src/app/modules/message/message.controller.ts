@@ -22,8 +22,18 @@ const getAllMessage = catchAsync(async (req, res) => {
     statusCode: status.OK
   })
 })
+const mark_as_red = catchAsync(async (req, res) => {
+  const result = await messageServices.mark_as_red_into_db(req?.params?.id)
+  sendResponse(res, {
+    success: true,
+    message: "Message reded successful.",
+    data: result,
+    statusCode: status.OK
+  })
+})
 
 export const messageControllers = {
   createMessage,
-  getAllMessage
+  getAllMessage,
+  mark_as_red
 }

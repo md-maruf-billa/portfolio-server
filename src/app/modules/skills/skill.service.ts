@@ -14,12 +14,12 @@ const update_skill_into_db = async (id: string, payload: Partial<ISkills>) => {
 }
 // delete
 const delete_skill_into_db = async (id: string) => {
-    const result = await skillModel.findByIdAndDelete(id)
+    const result = await skillModel.findByIdAndUpdate(id, { isDeleted: true })
     return result;
 }
 // get all
 const get_all_skill_from_db = async () => {
-    const result = await skillModel.find()
+    const result = await skillModel.find({ isDeleted: false })
     return result;
 }
 

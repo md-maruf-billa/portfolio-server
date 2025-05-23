@@ -8,7 +8,6 @@ export type TProject = {
   frontEndGitRepo: string
   backEndGitRepo: string
   liveLink: string
-  serverLiveLink?: string
   isFeatured?: boolean
   isDeleted?: boolean
 }

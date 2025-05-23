@@ -10,11 +10,9 @@ const messageSchema = new Schema<TMessage>({
     type: String,
     required: true
   },
-  user: {
-    email: String,
-    name: String,
-    photo: String
-  }
-},{timestamps:true})
+  senderEmail: { type: String, required: true },
+  senderName: { type: String, required: true },
+  isReded: { type: Boolean, default: false }
+}, { timestamps: true })
 
 export const MessageModel = model("message", messageSchema)

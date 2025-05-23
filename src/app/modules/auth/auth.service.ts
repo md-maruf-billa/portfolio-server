@@ -5,11 +5,14 @@ import jwt from 'jsonwebtoken';
 import { Server_Config } from './../../config/server.config';
 import { UserModel } from "../user/user.schema";
 import { TUser, TUserLogin } from "../user/user.interface";
+import { ProjectModel } from "../project/project.schema";
+import { BlogModel } from "../blog/blog.schema";
+import { skillModel } from "../skills/skill.schema";
+import { MessageModel } from "../message/message.schema";
 
 
 // create user into db
 const registerUserIntoDB = async (payload: TUser) => {
-
     // check user already exits
     const userExist = await UserModel.findOne({ email: payload.email });
     if (userExist) {
@@ -36,12 +39,68 @@ const loginUserFromDb = async (payload: TUserLogin) => {
     }
     // genareate token
     const token = jwt.sign({ email: userExist.email }, Server_Config.JWT_SECRET as string, { expiresIn: "1h" });
-   
+
     return {
         token
     };
 }
+const get_me_from_db = async (email: string) => {
+    const result = await UserModel.findOne({ email })
+    if (!result) {
+        throw new AppError(status.NOT_FOUND, "User not found!!",)
+    }
+    return result
+}
+
+const get_overview_from_db = async () => {
+    // for project
+    const project = await ProjectModel.find()
+    const activeProject = project.filter((pj) => !pj.isDeleted)
+    const deleteProject = project.filter((pj) => pj.isDeleted)
+
+    // for blog
+    const blog = await BlogModel.find();
+    const activeBlog = blog.filter((b) => !b.isDeleted)
+    const deleteBlog = blog.filter((b) => b.isDeleted)
+
+    // for skill
+    const skill = await skillModel.find();
+    const activeSkill = skill.filter((b) => !b.isDeleted)
+    const deleteSkill = skill.filter((b) => b.isDeleted)
+
+    // for message
+    const message = await MessageModel.find().sort({ createdAt: -1 });
+    const oldMessage = message.filter((b) => b.isReded)
+    const newMessage = message.filter((b) => !b.isReded)
+
+    return {
+        project: {
+            totalProject: project?.length,
+            activeProject: activeProject?.length,
+            deleteProject: deleteProject?.length
+        },
+        blog: {
+            totalBlog: blog?.length,
+            activeBlog: activeBlog?.length,
+            deleteBlog: deleteBlog?.length
+        },
+        skill: {
+            totalSkill: skill?.length,
+            activeSkill: activeSkill?.length,
+            deleteSkill: deleteSkill?.length
+        },
+        message: {
+            totalMessage: message?.length,
+            newMessage: newMessage?.length,
+            oldMessage: oldMessage?.length,
+            message
+        }
+    }
+}
+
 export const authServices = {
     registerUserIntoDB,
-    loginUserFromDb
+    loginUserFromDb,
+    get_me_from_db,
+    get_overview_from_db
 }

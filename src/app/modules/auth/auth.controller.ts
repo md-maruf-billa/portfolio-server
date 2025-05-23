@@ -14,7 +14,7 @@ const registerNewUser = catchAsync(async (req, res) => {
 })
 const loginUser = catchAsync(async (req, res) => {
     const result = await authServices.loginUserFromDb(req.body);
-    res.cookie("token", result?.token)
+    res.cookie("accessToken", result?.token)
     sendResponse(res, {
         success: true,
         message: "User LoggedIn Successfully",
@@ -22,9 +22,29 @@ const loginUser = catchAsync(async (req, res) => {
         data: result
     })
 })
+const get_me = catchAsync(async (req, res) => {
+    const result = await authServices.get_me_from_db(req?.userInfo?.email);
+    sendResponse(res, {
+        success: true,
+        message: "My data fetched",
+        statusCode: status.OK,
+        data: result
+    })
+})
 
+const get_overview = catchAsync(async (req, res) => {
+    const result = await authServices.get_overview_from_db();
+    sendResponse(res, {
+        success: true,
+        message: "Overview Data fetched",
+        statusCode: status.OK,
+        data: result
+    })
+})
 
 export const authControllers = {
     registerNewUser,
-    loginUser
+    loginUser,
+    get_me,
+    get_overview
 }

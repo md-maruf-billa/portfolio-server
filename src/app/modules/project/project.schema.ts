@@ -39,10 +39,6 @@ const projectSchema = new Schema<TProject>(
       type: String,
       required: true
     },
-    serverLiveLink: {
-      type: String,
-      required: false
-    },
     isDeleted: {
       type: Boolean,
       default: false

@@ -3,7 +3,7 @@ import sendResponse from './app/utils/sendResponse';
 import cors from "cors";
 import serverRoutes from './app/router/routes';
 import globalErrorHandler from './app/errors/globalErrorHandler';
-import  status  from 'http-status';
+import status from 'http-status';
 import notFound from './app/utils/apiNotFound';
 import cookieParser from 'cookie-parser';
 const app = express()
@@ -12,14 +12,17 @@ const app = express()
 app.use(express.json());
 app.use(express.raw());
 app.use(cookieParser());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors())
-app.use("/api",serverRoutes)
+app.use("/api", serverRoutes)
 
 
 
 // test route
 app.get('/', (req: Request, res: Response) => {
     sendResponse(res, {
+        success: true,
         message: "Server is successfully running 🏃‍♀️‍➡️🏃‍♀️‍➡️🏃‍♀️‍➡️",
         statusCode: status.OK,
         data: null

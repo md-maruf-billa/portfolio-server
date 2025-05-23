@@ -26,7 +26,7 @@ const updateProjectValidation = z.object({
     .string()
     .min(10, { message: 'Description must be at least 10 characters long' })
     .optional(),
-  slogun: z.string().min(1, { message: 'Slogun is required' }).optional(),
+  slogan: z.string().min(1, { message: 'Slogun is required' }).optional(),
   technologies: z
     .array(z.string().min(1))
     .min(1, { message: 'At least one technology is required' })

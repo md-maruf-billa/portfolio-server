@@ -12,9 +12,12 @@ projectRoute.post(
   auth(),
   upload.single('image'),
   (req: Request, res: Response, next: NextFunction) => {
-    req.body = JSON.parse(req.body.data)
-
-    next()
+    try {
+      req.body = JSON.parse(req.body.data);
+      next();
+    } catch (err) {
+      next(err)
+    }
   },
   checkSchemaValidation(projectValidations.createProjectValidation),
   projectControllers.createProject
